@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jack Dowd Clicker</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #121212;
+color: #eee;
+margin: 0;
+padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+min-height: 100vh;
+}
+
+h1 {
+font-size: 3rem;
+margin-bottom: 10px;
+text-align: center;
+color: #ffcc00;
+text-shadow: 0 0 10px #ffcc00;
+}
+
+#score {
+font-size: 1.5rem;
+margin-bottom: 20px;
+font-weight: bold;
+}
+
+#clickable-image {
+width: 200px;
+height: auto;
+cursor: pointer;
+border-radius: 15px;
+box-shadow: 0 0 20px #ffcc00;
+transition: transform 0.2s ease;
+margin-bottom: 30px;
+}
+#clickable-image:hover {
+transform: scale(1.05);
+}
+
+#shop {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 15px;
+width: 100%;
+max-width: 700px;
+}
+
+#shop button {
+background: #ffcc00;
+border: none;
+border-radius: 10px;
+padding: 12px 15px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5);
+color: #121212;
+transition: background 0.3s ease;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+#shop button:hover {
+background: #e6b800;
+}
+
+.counter {
+background: #121212;
+color: #ffcc00;
+font-weight: 700;
+padding: 3px 8px;
+border-radius: 8px;
+font-size: 0.9rem;
+min-width: 25px;
+text-align: center;
+margin-left: 10px;
+}
+
+@keyframes shake {
+0%, 100% { transform: translateX(0); }
+20%, 60% { transform: translateX(-10px); }
+40%, 80% { transform: translateX(10px); }
+}
+.shake {
+animation: shake 0.5s;
+}
+
+@media (max-width: 480px) {
+h1 {
+font-size: 2.2rem;
+}
+#score {
+font-size: 1.2rem;
+}
+#shop {
+grid-template-columns: 1fr;
+}
+#shop button {
+font-size: 0.95rem;
+padding: 10px 12px;
+}
+}
+</style>
+</head>
+<body>
+
+<h1>Jack Dowd Clicker</h1>
+<p id="score">Score: 0</p>
+
+<img src="attached_assets/dxXE6wr - Imgur_1750219079415.jpg" id="clickable-image" alt="Jack Dowd Face" />
+
+<h3 style="color:#ffcc00; margin-top: 10px; margin-bottom: 15px; text-align:center;">Shop</h3>
+<div id="shop">
+<button onclick="buy('boost')">Buy Boost (10 pts) <span id="count-boost" class="counter">0</span></button>
+<button onclick="buy('autoClicker')">Auto Clicker (50 pts) <span id="count-autoClicker" class="counter">0</span></button>
+<button onclick="buy('egoBoost')">Ego Boost (100 pts) <span id="count-egoBoost" class="counter">0</span></button>
+<button onclick="buy('mediaEmpire')">Media Empire (250 pts) <span id="count-mediaEmpire" class="counter">0</span></button>
+<button onclick="buy('jacktok')">JackTok Follower Farm (500 pts) <span id="count-jacktok" class="counter">0</span></button>
+<button onclick="buy('brain')">Upload Jack’s Brain (1000 pts) <span id="count-brain" class="counter">0</span></button>
+<button onclick="buy('goatMode')">Goat Mode (2500 pts) <span id="count-goatMode" class="counter">0</span></button>
+<button onclick="buy('aliens')">Summon Alien Dowds (5000 pts) <span id="count-aliens" class="counter">0</span></button>
+<button onclick="buy('nuke')">Nuke Progress (100 pts) <span id="count-nuke" class="counter">0</span></button>
+<button onclick="buy('prestige')">Prestige (10000 pts) <span id="count-prestige" class="counter">0</span></button>
+</div>
+
+<script>
+let score = 0;
+let pointsPerClick = 1;
+let autoClickRate = 0;
+let passiveMultiplier = 1;
+let prestigeMultiplier = 1;
+let isGoatMode = false;
+
+// Track counts for each upgrade
+const counts = {
+boost: 0,
+autoClicker: 0,
+egoBoost: 0,
+mediaEmpire: 0,
+jacktok: 0,
+brain: 0,
+goatMode: 0,
+aliens: 0,
+nuke: 0,
+prestige: 0
+};
+
+const img = document.getElementById('clickable-image');
+const scoreDisplay = document.getElementById('score');
+
+function updateScoreDisplay() {
+scoreDisplay.textContent = "Score: " + Math.floor(score);
+}
+
+function updateCountDisplay(item) {
+const el = document.getElementById(`count-${item}`);
+if(el) el.textContent = counts[item];
+}
+
+img.addEventListener('click', () => {
+let amount = pointsPerClick * prestigeMultiplier;
+if (isGoatMode) amount *= 5;
+score += amount;
+updateScoreDisplay();
+
+img.classList.add('shake');
+setTimeout(() => img.classList.remove('shake'), 500);
+});
+
+function buy(item) {
+const effects = {
+boost: { cost: 10, effect: () => pointsPerClick += 1 },
+autoClicker: { cost: 50, effect: () => autoClickRate += 1 },
+egoBoost: { cost: 100, effect: () => pointsPerClick *= 2 },
+mediaEmpire: { cost: 250, effect: () => autoClickRate += 10 },
+jacktok: { cost: 500, effect: () => passiveMultiplier *= 2 },
+brain: { cost: 1000, effect: () => pointsPerClick += 100 },
+goatMode: { cost: 2500, effect: () => {
+isGoatMode = true;
+setTimeout(() => isGoatMode = false, 10000);
+}},
+aliens: { cost: 5000, effect: () => {
+const bonus = Math.floor(Math.random() * 4001) + 1000;
+score += bonus;
+alert(`Alien Dowds gave you +${bonus} points!`);
+}},
+nuke: { cost: 100, effect: () => {
+score = 0;
+pointsPerClick = 1;
+autoClickRate = 0;
+passiveMultiplier = 1;
+updateScoreDisplay();
+alert("You nuked everything. Jack is disappointed.");
+}},
+prestige: { cost: 10000, effect: () => {
+score = 0;
+pointsPerClick = 1;
+autoClickRate = 0;
+passiveMultiplier = 1;
+prestigeMultiplier *= 2;
+alert("You prestiged! Future points are multiplied.");
+}}
+};
+
+const upgrade = effects[item];
+if (!upgrade) return;
+
+if (score >= upgrade.cost) {
+score -= upgrade.cost;
+upgrade.effect();
+counts[item]++;
+updateScoreDisplay();
+updateCountDisplay(item);
+} else {
+alert("Not enough score!");
+}
+}
+
+setInterval(() => {
+let gain = autoClickRate * passiveMultiplier * prestigeMultiplier;
+if (isGoatMode) gain *= 5;
+score += gain;
+updateScoreDisplay();
+}, 1000);
+</script>
+
+</body>
+</html>
