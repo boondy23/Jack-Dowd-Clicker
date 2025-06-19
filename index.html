@@ -388,6 +388,52 @@ setInterval(() => {
   updateProgressTracker();
 }, 1000);
 </script>
+function saveGame() {
+  const saveData = {
+    score,
+    pointsPerClick,
+    autoClickRate,
+    passiveMultiplier,
+    prestigeMultiplier,
+    isGoatMode,
+    gregMode,
+    totalClicks,
+    totalPointsEarned,
+    timePlayed,
+    counts
+  };
+  localStorage.setItem("jackDowdSave", JSON.stringify(saveData));
+}
+
+function loadGame() {
+  const data = JSON.parse(localStorage.getItem("jackDowdSave"));
+  if (!data) return;
+
+  score = data.score ?? 0;
+  pointsPerClick = data.pointsPerClick ?? 1;
+  autoClickRate = data.autoClickRate ?? 0;
+  passiveMultiplier = data.passiveMultiplier ?? 1;
+  prestigeMultiplier = data.prestigeMultiplier ?? 1;
+  isGoatMode = data.isGoatMode ?? false;
+  gregMode = data.gregMode ?? false;
+  totalClicks = data.totalClicks ?? 0;
+  totalPointsEarned = data.totalPointsEarned ?? 0;
+  timePlayed = data.timePlayed ?? 0;
+  
+  if (data.counts) {
+    for (let key in counts) {
+      counts[key] = data.counts[key] ?? 0;
+      updateCountDisplay(key);
+    }
+  }
+
+  updateScoreDisplay();
+  updateProgressTracker();
+}
+
+loadGame(); // Call this once when script loads
+
+setInterval(saveGame, 5000); // Auto-save every 5 seconds
 
 <div id="footer-features">featuring Greg and RDM</div>
 
