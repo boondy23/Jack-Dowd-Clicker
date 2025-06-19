@@ -388,7 +388,7 @@ setInterval(() => {
   updateProgressTracker();
 }, 1000);
 
-// *** ADDED SAVE/LOAD FUNCTIONS AND CALLS BELOW ***
+// === ADDING SAVE / LOAD FUNCTIONS ===
 
 function saveGame() {
   const saveData = {
@@ -433,9 +433,8 @@ function loadGame() {
   updateProgressTracker();
 }
 
-loadGame(); // load progress on start
-
-setInterval(saveGame, 5000); // auto-save every 5 seconds
+loadGame(); // Load saved data on page load
+setInterval(saveGame, 5000); // Save every 5 seconds
 
 </script>
 
