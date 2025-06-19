@@ -6,130 +6,190 @@
 <title>Jack Dowd Clicker</title>
 <style>
 body {
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-background: #121212;
-color: #eee;
-margin: 0;
-padding: 20px;
-display: flex;
-flex-direction: column;
-align-items: center;
-min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #eee;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 h1 {
-font-size: 3rem;
-margin-bottom: 10px;
-text-align: center;
-color: #ffcc00;
-text-shadow: 0 0 10px #ffcc00;
+  font-size: 3rem;
+  margin-bottom: 5px;
+  text-align: center;
+  color: #ffcc00;
+  text-shadow: 0 0 10px #ffcc00;
+}
+
+#version {
+  font-size: 1rem;
+  color: #ffcc00cc;
+  margin-bottom: 20px;
+  text-align: center;
+  font-style: italic;
 }
 
 #score {
-font-size: 1.5rem;
-margin-bottom: 20px;
-font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#progress-tracker {
+  background: #222;
+  border: 1px solid #ffcc00;
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 300px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #ffcc00;
+  box-shadow: 0 0 10px #ffcc00;
 }
 
 #clickable-image {
-width: 200px;
-height: auto;
-cursor: pointer;
-border-radius: 15px;
-box-shadow: 0 0 20px #ffcc00;
-transition: transform 0.2s ease;
-margin-bottom: 30px;
+  width: 200px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #ffcc00;
+  transition: transform 0.2s ease;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
+
 #clickable-image:hover {
-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+#riley-image {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  background: #000;
+  z-index: 9999;
 }
 
 #shop {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-gap: 15px;
-width: 100%;
-max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  z-index: 1;
 }
 
 #shop button {
-background: #ffcc00;
-border: none;
-border-radius: 10px;
-padding: 12px 15px;
-font-size: 1rem;
-font-weight: 600;
-cursor: pointer;
-box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5);
-color: #121212;
-transition: background 0.3s ease;
-display: flex;
-justify-content: space-between;
-align-items: center;
+  background: #ffcc00;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5);
+  color: #121212;
+  transition: background 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #shop button:hover {
-background: #e6b800;
+  background: #e6b800;
 }
 
 .counter {
-background: #121212;
-color: #ffcc00;
-font-weight: 700;
-padding: 3px 8px;
-border-radius: 8px;
-font-size: 0.9rem;
-min-width: 25px;
-text-align: center;
-margin-left: 10px;
+  background: #121212;
+  color: #ffcc00;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  min-width: 25px;
+  text-align: center;
+  margin-left: 10px;
 }
 
 @keyframes shake {
-0%, 100% { transform: translateX(0); }
-20%, 60% { transform: translateX(-10px); }
-40%, 80% { transform: translateX(10px); }
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
 }
+
 .shake {
-animation: shake 0.5s;
+  animation: shake 0.5s;
+}
+
+#footer-features {
+  font-size: 0.75rem;
+  color: #ffcc00;
+  opacity: 0.1;
+  user-select: none;
+  margin-top: 40px;
 }
 
 @media (max-width: 480px) {
-h1 {
-font-size: 2.2rem;
-}
-#score {
-font-size: 1.2rem;
-}
-#shop {
-grid-template-columns: 1fr;
-}
-#shop button {
-font-size: 0.95rem;
-padding: 10px 12px;
-}
+  h1 {
+    font-size: 2.2rem;
+  }
+  #score {
+    font-size: 1.2rem;
+  }
+  #shop {
+    grid-template-columns: 1fr;
+  }
+  #shop button {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
 }
 </style>
 </head>
 <body>
 
 <h1>Jack Dowd Clicker</h1>
+<div id="version">Version 2.0</div>
+
 <p id="score">Score: 0</p>
 
-<img src="IMG_3127.jpeg" id="clickable-image" alt="Jack Dowd Face" />
+<div id="progress-tracker">
+  Total Clicks: <span id="total-clicks">0</span><br />
+  Total Points Earned: <span id="total-points">0</span><br />
+  Time Played: <span id="time-played">0</span> seconds
+</div>
+
+<img src="attached_assets/jack.jpg" id="clickable-image" alt="Jack Dowd Face" />
+<img src="rdm.jpg" id="riley-image" alt="Riley" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:contain; background:#000; z-index:9999;" />
 
 <h3 style="color:#ffcc00; margin-top: 10px; margin-bottom: 15px; text-align:center;">Shop</h3>
 <div id="shop">
-<button onclick="buy('boost')">Buy Boost (10 pts) <span id="count-boost" class="counter">0</span></button>
-<button onclick="buy('autoClicker')">Auto Clicker (50 pts) <span id="count-autoClicker" class="counter">0</span></button>
-<button onclick="buy('egoBoost')">Ego Boost (100 pts) <span id="count-egoBoost" class="counter">0</span></button>
-<button onclick="buy('mediaEmpire')">Media Empire (250 pts) <span id="count-mediaEmpire" class="counter">0</span></button>
-<button onclick="buy('jacktok')">JackTok Follower Farm (500 pts) <span id="count-jacktok" class="counter">0</span></button>
-<button onclick="buy('brain')">Upload Jack’s Brain (1000 pts) <span id="count-brain" class="counter">0</span></button>
-<button onclick="buy('goatMode')">Goat Mode (2500 pts) <span id="count-goatMode" class="counter">0</span></button>
-<button onclick="buy('aliens')">Summon Alien Dowds (5000 pts) <span id="count-aliens" class="counter">0</span></button>
-<button onclick="buy('nuke')">Nuke Progress (100 pts) <span id="count-nuke" class="counter">0</span></button>
-<button onclick="buy('prestige')">Prestige (10000 pts) <span id="count-prestige" class="counter">0</span></button>
+  <button onclick="buy('boost')" title="Adds +1 to points per click.">Buy Boost (20 pts) <span id="count-boost" class="counter">0</span></button>
+  <button onclick="buy('autoClicker')" title="Adds +1 point per second automatically.">Auto Clicker (100 pts) <span id="count-autoClicker" class="counter">0</span></button>
+  <button onclick="buy('egoBoost')" title="Doubles your current click power.">Ego Boost (200 pts) <span id="count-egoBoost" class="counter">0</span></button>
+  <button onclick="buy('mediaEmpire')" title="Adds +10 auto-click points per second.">Media Empire (500 pts) <span id="count-mediaEmpire" class="counter">0</span></button>
+  <button onclick="buy('jacktok')" title="Increases passive income multiplier by 1.5×.">JackTok Follower Farm (1000 pts) <span id="count-jacktok" class="counter">0</span></button>
+  <button onclick="buy('brain')" title="Jack uploads 100 IQ. +100 points per click.">Upload Jack’s Brain (2000 pts) <span id="count-brain" class="counter">0</span></button>
+  <button onclick="buy('superBrain')" title="Jack goes supernova. +1000 points per click.">Super Brain (5000 pts) <span id="count-superBrain" class="counter">0</span></button>
+  <button onclick="buy('goatMode')" title="Enables GOAT MODE: 5× all income for 10 seconds.">Goat Mode (5000 pts) <span id="count-goatMode" class="counter">0</span></button>
+  <button onclick="buy('aliens')" title="Summons Alien Dowds for 1000–5000 bonus points.">Summon Alien Dowds (10000 pts) <span id="count-aliens" class="counter">0</span></button>
+  <button onclick="buy('viralVid')" title="Triples your passive income forever.">Viral Vid (15000 pts) <span id="count-viralVid" class="counter">0</span></button>
+  <button onclick="buy('cloningLab')" title="Multiplies your auto click rate by 3.">Cloning Lab (25000 pts) <span id="count-cloningLab" class="counter">0</span></button>
+  <button onclick="buy('gregRdm')" title="50/50: Greg = 10× all income for 1 minute. RDM = wipes your progress and shows Riley.">Greg or RDM (10000 pts) <span id="count-gregRdm" class="counter">0</span></button>
+  <button onclick="buy('prestige')" title="Hard reset. Doubles all future income. Stacks exponentially.">Prestige (1,000,000,000 pts) <span id="count-prestige" class="counter">0</span></button>
 </div>
+
+<div id="footer-features">featuring Greg and RDM</div>
 
 <script>
 let score = 0;
@@ -138,99 +198,159 @@ let autoClickRate = 0;
 let passiveMultiplier = 1;
 let prestigeMultiplier = 1;
 let isGoatMode = false;
+let gregMode = false;
 
-// Track counts for each upgrade
-const counts = {
-boost: 0,
-autoClicker: 0,
-egoBoost: 0,
-mediaEmpire: 0,
-jacktok: 0,
-brain: 0,
-goatMode: 0,
-aliens: 0,
-nuke: 0,
-prestige: 0
-};
+let totalClicks = 0;
+let totalPointsEarned = 0;
+let timePlayed = 0;
 
 const img = document.getElementById('clickable-image');
+const rileyImg = document.getElementById('riley-image');
 const scoreDisplay = document.getElementById('score');
 
+const totalClicksDisplay = document.getElementById('total-clicks');
+const totalPointsDisplay = document.getElementById('total-points');
+const timePlayedDisplay = document.getElementById('time-played');
+
+const counts = {
+  boost: 0,
+  autoClicker: 0,
+  egoBoost: 0,
+  mediaEmpire: 0,
+  jacktok: 0,
+  brain: 0,
+  superBrain: 0,
+  goatMode: 0,
+  aliens: 0,
+  viralVid: 0,
+  cloningLab: 0,
+  gregRdm: 0,
+  prestige: 0
+};
+
 function updateScoreDisplay() {
-scoreDisplay.textContent = "Score: " + Math.floor(score);
+  scoreDisplay.textContent = "Score: " + Math.floor(score);
 }
 
 function updateCountDisplay(item) {
-const el = document.getElementById(`count-${item}`);
-if(el) el.textContent = counts[item];
+  const el = document.getElementById(`count-${item}`);
+  if (el) el.textContent = counts[item];
+}
+
+function updateProgressTracker() {
+  totalClicksDisplay.textContent = totalClicks;
+  totalPointsDisplay.textContent = Math.floor(totalPointsEarned);
+  timePlayedDisplay.textContent = timePlayed;
 }
 
 img.addEventListener('click', () => {
-let amount = pointsPerClick * prestigeMultiplier;
-if (isGoatMode) amount *= 5;
-score += amount;
-updateScoreDisplay();
-
-img.classList.add('shake');
-setTimeout(() => img.classList.remove('shake'), 500);
+  let amount = pointsPerClick * prestigeMultiplier;
+  if (isGoatMode) amount *= 5;
+  if (gregMode) amount *= 10;
+  score += amount;
+  totalClicks++;
+  totalPointsEarned += amount;
+  updateScoreDisplay();
+  updateProgressTracker();
+  img.classList.add('shake');
+  setTimeout(() => img.classList.remove('shake'), 500);
 });
 
 function buy(item) {
-const effects = {
-boost: { cost: 10, effect: () => pointsPerClick += 1 },
-autoClicker: { cost: 50, effect: () => autoClickRate += 1 },
-egoBoost: { cost: 100, effect: () => pointsPerClick *= 2 },
-mediaEmpire: { cost: 250, effect: () => autoClickRate += 10 },
-jacktok: { cost: 500, effect: () => passiveMultiplier *= 2 },
-brain: { cost: 1000, effect: () => pointsPerClick += 100 },
-goatMode: { cost: 2500, effect: () => {
-isGoatMode = true;
-setTimeout(() => isGoatMode = false, 10000);
-}},
-aliens: { cost: 5000, effect: () => {
-const bonus = Math.floor(Math.random() * 4001) + 1000;
-score += bonus;
-alert(`Alien Dowds gave you +${bonus} points!`);
-}},
-nuke: { cost: 100, effect: () => {
-score = 0;
-pointsPerClick = 1;
-autoClickRate = 0;
-passiveMultiplier = 1;
-updateScoreDisplay();
-alert("You nuked everything. Jack is disappointed.");
-}},
-prestige: { cost: 10000, effect: () => {
-score = 0;
-pointsPerClick = 1;
-autoClickRate = 0;
-passiveMultiplier = 1;
-prestigeMultiplier *= 2;
-alert("You prestiged! Future points are multiplied.");
-}}
-};
+  const effects = {
+    boost: { cost: 20, effect: () => pointsPerClick += 1 },
+    autoClicker: { cost: 100, effect: () => autoClickRate += 1 },
+    egoBoost: { cost: 200, effect: () => pointsPerClick *= 2 },
+    mediaEmpire: { cost: 500, effect: () => autoClickRate += 10 },
+    jacktok: { cost: 1000, effect: () => passiveMultiplier *= 1.5 },
+    brain: { cost: 2000, effect: () => pointsPerClick += 100 },
+    superBrain: { cost: 5000, effect: () => pointsPerClick += 1000 },
+    goatMode: { cost: 5000, effect: () => {
+      isGoatMode = true;
+      setTimeout(() => isGoatMode = false, 10000);
+    }},
+    aliens: { cost: 10000, effect: () => {
+      const bonus = Math.floor(Math.random() * 4001) + 1000;
+      score += bonus;
+      totalPointsEarned += bonus;
+      alert(`Alien Dowds gave you +${bonus} points!`);
+    }},
+    viralVid: { cost: 15000, effect: () => passiveMultiplier *= 3 },
+    cloningLab: { cost: 25000, effect: () => autoClickRate *= 3 },
+    gregRdm: { cost: 15000, effect: () => {
+      const originalSrc = img.src;
+      if (Math.random() < 0.5) {
+        // Greg Mode
+        gregMode = true;
+        img.src = "greg.jpg";
+        alert("You drew Greg! 10x income for 1 minute!");
+        setTimeout(() => {
+          gregMode = false;
+          img.src = originalSrc;
+        }, 60000);
+      } else {
+        // RDM Mode - show Riley image fullscreen for 5 seconds
+        img.style.display = 'none'; // hide Jack image
+        rileyImg.style.display = 'block'; // show Riley
 
-const upgrade = effects[item];
-if (!upgrade) return;
+        setTimeout(() => {
+          rileyImg.style.display = 'none'; // hide Riley
+          img.style.display = 'block';     // show Jack again
+        }, 5000);
 
-if (score >= upgrade.cost) {
-score -= upgrade.cost;
-upgrade.effect();
-counts[item]++;
-updateScoreDisplay();
-updateCountDisplay(item);
-} else {
-alert("Not enough score!");
-}
+        score = 0;
+        pointsPerClick = 1;
+        autoClickRate = 0;
+        passiveMultiplier = 1;
+        prestigeMultiplier = 1;
+        totalClicks = 0;
+        totalPointsEarned = 0;
+        alert("You drew RDM. Everything exploded.");
+      }
+    }},
+    prestige: { cost: 1000000000, effect: () => {
+      score = 0;
+      pointsPerClick = 1;
+      autoClickRate = 0;
+      passiveMultiplier = 1;
+      prestigeMultiplier *= 2;
+      img.src = "presjack.jpg"; // Replace with your prestige image path
+      alert("Prestiged! Your power has doubled.");
+    }}
+  };
+
+  const upgrade = effects[item];
+  if (!upgrade) return;
+
+  if (score >= upgrade.cost) {
+    score -= upgrade.cost;
+    upgrade.effect();
+    counts[item]++;
+    updateScoreDisplay();
+    updateCountDisplay(item);
+    updateProgressTracker();
+  } else {
+    alert("Not enough score!");
+  }
 }
 
 setInterval(() => {
-let gain = autoClickRate * passiveMultiplier * prestigeMultiplier;
-if (isGoatMode) gain *= 5;
-score += gain;
-updateScoreDisplay();
+  let gain = autoClickRate * passiveMultiplier * prestigeMultiplier;
+  if (isGoatMode) gain *= 5;
+  if (gregMode) gain *= 10;
+  score += gain;
+  totalPointsEarned += gain;
+  updateScoreDisplay();
+  updateProgressTracker();
+}, 1000);
+
+setInterval(() => {
+  timePlayed++;
+  updateProgressTracker();
 }, 1000);
 </script>
+
+<div id="footer-features">featuring Greg and RDM</div>
 
 </body>
 </html>
